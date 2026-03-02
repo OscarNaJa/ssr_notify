@@ -1,0 +1,249 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Kanit', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+#notification-container {
+    position: fixed;
+    top: 35%;
+    right: 20px;
+    transform: translateY(-50%);
+    z-index: 9999;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.notification {
+    --notify-color: #17a7ff;
+    --notify-rgb: 23, 167, 255;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    opacity: 0;
+    transform: translateX(110%);
+    animation: slideInNotify 0.22s ease-out forwards;
+}
+
+.notification.hiding {
+    animation: slideOutNotify 0.18s ease-in forwards;
+}
+
+.notification.success {
+    --notify-color: #20d98a;
+    --notify-rgb: 32, 217, 138;
+}
+
+.notification.error {
+    --notify-color: #ff2f48;
+    --notify-rgb: 255, 47, 72;
+}
+
+.notification.warning {
+    --notify-color: #ffb020;
+    --notify-rgb: 255, 176, 32;
+}
+
+.notification.info {
+    --notify-color: #18a4ff;
+    --notify-rgb: 24, 164, 255;
+}
+
+.notification-icon-wrap {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    position: relative;
+    background: rgba(10, 14, 22, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ebedf0;
+    font-size: 13px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+    flex-shrink: 0;
+}
+
+.icon-progress-ring {
+    position: absolute;
+    inset: -1px;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    transform: rotate(-90deg);
+}
+
+.icon-progress-ring .track {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.18);
+    stroke-width: 2.5;
+}
+
+.icon-progress-ring .value {
+    fill: none;
+    stroke: var(--notify-color);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-dasharray: 113.1;
+    stroke-dashoffset: 0;
+    animation: ringCountdown 5s linear forwards;
+    filter: drop-shadow(0 0 2px rgba(var(--notify-rgb), 0.35));
+}
+
+.notification-icon {
+    position: relative;
+    z-index: 1;
+    animation: iconBreath 1.9s ease-in-out infinite;
+}
+
+.notification-card {
+    width: fit-content;
+    max-width: min(72vw, 420px);
+    min-height: 36px;
+    background: rgba(7, 11, 18, 0.97);
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+    position: relative;
+    overflow: hidden;
+    padding: 8px 12px 8px 17px;
+    display: flex;
+    align-items: center;
+}
+
+.notification-text {
+    font-size: 10px;
+    color: #f2f5f8;
+    line-height: 1.2;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.notification-repeat {
+    margin-left: 8px;
+    font-size: 9px;
+    color: var(--notify-color);
+    letter-spacing: 0.3px;
+    font-weight: 600;
+    flex-shrink: 0;
+    opacity: 0.85;
+}
+
+.notification-repeat.pop {
+    animation: repeatPop 0.2s ease-out;
+}
+
+.notification.pulse .notification-icon {
+    animation: iconPulse 0.35s ease-out, iconBreath 1.9s ease-in-out 0.35s infinite;
+}
+
+
+.notification-accent {
+    position: absolute;
+    top: 9px;
+    left: 6px;
+    width: 4px;
+    height: 15px;
+    border-radius: 6px;
+    background: var(--notify-color);
+}
+
+@keyframes slideInNotify {
+    from {
+        transform: translateX(110%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutNotify {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(110%);
+        opacity: 0;
+    }
+}
+
+@keyframes ringCountdown {
+    from {
+        stroke-dashoffset: 0;
+    }
+
+    to {
+        stroke-dashoffset: 113.1;
+    }
+}
+
+
+@keyframes repeatPop {
+    from {
+        transform: scale(0.85);
+        opacity: 0.6;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes iconPulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes iconBreath {
+    0%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.85;
+    }
+
+    50% {
+        transform: translateY(-1px);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    #notification-container {
+        top: 20%;
+        right: 5%;
+        transform: none;
+    }
+
+    .notification-card {
+        max-width: min(78vw, 340px);
+    }
+}
