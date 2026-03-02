@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: 'Kanit', sans-serif;
+    font-family: 'Noto Sans Thai', 'Kanit', sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
 }
@@ -122,11 +122,10 @@ body {
 }
 
 .notification-text {
-    font-size: 10px;
+    font-size: 12px;
     color: #f2f5f8;
-    line-height: 1.2;
-    letter-spacing: 0.2px;
-    text-transform: uppercase;
+    line-height: 1.5;
+    letter-spacing: 0.1px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
